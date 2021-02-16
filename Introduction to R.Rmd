@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R Programming"
-author: "Sana Rasheed"
-date: "May 14, 2020"
+author: "Syed Abdul Haseeb"
+date: "February 16, 2021"
 output: html_document
 ---
 
@@ -17,33 +17,39 @@ output: html_document
 **Create the variables with the following composition:**  
 1. A vector containing each letter of your first name as its elements.  
 2. A variable that contains your name concatenated from the vector created in (1)  
-3. A variable containing a sequence from 100 to 120.  
+3. A variable containing aw sequence from 100 to 120.  
 4. Create a matrix of 3x3 dimensions that contains the even sequence of numbers starting from 2.  
 5. Assign names to the variables.  
 
 
 ```{r }
 #### Start solution ####
+x <- c('A','b','d','u','l')
+print(x)
 ```
 
 
 ```{r }
+y <- paste(x, collapse = "")
+print(y)
+```
+
+
+```{r }
+seq_vec <- c(100:120)
+print(seq_vec)
+
+
+
 
 ```
 
 
 ```{r }
-
-```
-
-
-```{r }
-
-```
-
-
-```{r }
-
+matrix_1 <- matrix(c(2,4,6,8,10,12,14,16,18), nrow=3, ncol=3)
+print(matrix_1)
+dimnames(matrix_1) <- list(c("a","b","c"),c("A","B","C"))
+print(matrix_1)
 ```
 
 
@@ -60,16 +66,20 @@ output: html_document
 
 ```{r }
 #### Start solution ####
+f <- factor(c("Employed","Employed","Unemployed","Self-Employed","Unemployed"
+              , "Self-Employed", "Employed","Employed", "Unemployed", "Self employed"),
+            levels = c("Employed","Unemployed","Self-Employed") )
+f
 ```
 
 
 ```{r }
-
+table(f)
 ```
 
 
 ```{r }
-
+unclass(f)
 ```
 
 
@@ -101,22 +111,23 @@ output: html_document
 
 
 ```{r }
-
+bank_customers <- data.frame(CustomerID=c("Alicia","Nancy","Fernando","Louis","Diane"),HasAccount= c(NA,"YES","YES","YES",NA), totalBalance= c(0,10000,100,2000,0))
+bank_customers
 ```
 
 
 ```{r }
-
+nrow(bank_customers)
 ```
 
 
 ```{r }
-
+ncol(bank_customers)
 ```
 
 
 ```{r }
-
+names(bank_customers)
 ```
 
 
@@ -143,6 +154,9 @@ output: html_document
 
 
 ```{r }
+seq_num <- 1:100
+## I AM HAVING DIFFICULTY IN UNDERSTANDING THE QUESTION
+## AND THE ALGORITHM TO CALCULATE PRIME NUMBERS IN IT
 
 ```
 
@@ -182,12 +196,19 @@ output: html_document
 
 
 ```{r }
-
+mat_1 <- matrix(data=c(1:9),nrow=3, ncol=3)
+print(mat_1)
 ```
 
 
 ```{r }
-
+for (i in 
+     seq_len(ncol(mat_1))) {
+  for (j in seq_len(nrow(mat_1))){
+    print(mat_1[i, j])
+  }
+}
+  
 ```
 
 
@@ -227,17 +248,42 @@ output: html_document
 
 
 ```{r }
+All_Factors <- function(divisibleNumber) {
+  factor_list <- list()
+  counter <- 1;
+  for (numbers in seq(1, divisibleNumber)) {
+    if (divisibleNumber %% numbers == 0) {
+      factor_list[counter] = numbers
+      counter <- counter + 1 
+    }
+  }
+  return(factor_list)
+}
+
+
+
+print(All_Factors(45))
 
 ```
 
 
 ```{r }
+gcd <- function(a,b) {
+  a = All_Factors(a)
+  b = All_Factors(b)
+  common_list <- intersect(a, b)
+  answer <- max(sapply(common_list, max))
+  return(answer)
+  print(answer)
+}
+
 
 ```
 
 
 ```{r }
-
+answer <- gcd(90,100)
+print(answer)
 ```
 
 
@@ -269,6 +315,17 @@ output: html_document
 
 
 ```{r }
+allConditionsMeet <- function(a, b) {
+  cond_1 <- if(a) TRUE else(FALSE)
+  cond_2 <- if(b) TRUE else(FALSE)
+  print(a)
+  print(b)
+  return(cond_1 && cond_2)
+}
+
+a <- 50 == 50
+b <- 25 == 25
+print(allConditionsMeet(a,b))
 
 ```
 
@@ -316,21 +373,34 @@ output: html_document
 
 
 ```{r }
+matrix_1 <- matrix(1:6, 2, 3)
+matrix_2 <- matrix(7:12, 3, 2)
+# element_wise_production <- matrix_1 * matrix_2
+## Error in matrix_1%%matrix_2 : non-conformable arrays
+## NOT POSSIBLE
+
+matrix_multiplication <- matrix_1 %*% matrix_2 ; print(matrix_multiplication)
 
 ```
 
 
 ```{r }
+my_mat <- matrix(rep(5,4),2 ,2)
+print(my_mat)
+
 
 ```
 
 
 ```{r }
-
+det_matrix <- function(input_matrix) {
+  return((input_matrix[[1,1]]*input_matrix[[2,2]])-(input_matrix[[1,2]]*input_matrix[[2,1]]))
+}
 ```
 
 
 ```{r }
+det_matrix(my_mat)
 
 ```
 
@@ -360,12 +430,22 @@ output: html_document
 
 
 ```{r }
-
+curr_date <- Sys.Date()
+curr_date
+as.POSIXlt(curr_date)
+names(unclass(curr_date)) ## NULL
 ```
 
 
 ```{r }
-
+curr_time <- Sys.time()
+curr_time
+x <- as.POSIXlt(curr_time)
+names(unclass(x))
+print(x$wday)
+print(x$year)
+print(x$sec)
+print(x$hour)
 ```
 
 
@@ -400,12 +480,17 @@ output: html_document
 
 
 ```{r }
-
+current_date_and_time <- as.POSIXlt(Sys.time(),"GMT")
+GMT_Time <- as.POSIXct(current_date_and_time,"America/New_York")
+print(current_date_and_time)
+print(GMT_Time)
 ```
 
 
 ```{r }
+Time_difference <- GMT_Time - current_date_and_time
 
+print(Time_difference)
 ```
 
 
@@ -444,27 +529,42 @@ output: html_document
 
 
 ```{r }
+numbers <- list(100:150)
+print(numbers)
+```
+
+
+```{r }
+mean_value <- lapply(numbers, mean)
+print(mean_value)
+sd_value <- lapply(numbers, sd)
+print(sd_value)
 
 ```
 
 
 ```{r }
-
+# mean_value_ap <- apply(numbers,mean)
+### ERROR
 ```
 
 
 ```{r }
-
+mean_value_sa <- sapply(numbers, mean)
+print(mean_value_sa)
+sd_value_sa <- sapply(numbers, sd)
+print(sd_value_sa)
 ```
 
 
 ```{r }
-
-```
-
-
-```{r }
-
+half_numbers <- 126:150
+length(half_numbers)
+f <- gl(1,25)
+mean_value_ta <- tapply(half_numbers, f, mean)
+print(mean_value_ta)
+sd_value_ta <- tapply(half_numbers, f , sd)
+print(sd_value_ta)
 ```
 
 
@@ -484,17 +584,22 @@ output: html_document
 
 
 ```{r }
+M_1 <- matrix(1:16,4, 4)
+M_1
 
 ```
 
 
 ```{r }
-
+row_means <- apply(M_1, 2, mean) 
+print(row_means)
 ```
 
 
 ```{r }
 
+col_means <- apply(M_1,1 , mean)
+print(col_means)
 ```
 
 
@@ -542,27 +647,30 @@ head(Orange)
 
 
 ```{r }
-
+split_data <- split(Orange, Orange$circumference)
+split_data
 ```
 
 
 ```{r }
-
+split_data$`30`
 ```
 
 
 ```{r }
-
+split_data$`75`
 ```
 
 
 ```{r }
-
+age_30 <- sapply(list(split_data$`30`$age),mean)
+print(age_30)
 ```
 
 
 ```{r }
-
+age_214 <- sapply(list(split_data$`214`$age),mean)
+print(age_214)
 ```
 
 
